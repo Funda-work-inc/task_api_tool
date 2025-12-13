@@ -1,0 +1,506 @@
+/* ========== リセット・基本設定 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #F5F7FA;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========== ヘッダー ========== */
+.header {
+  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+  color: white;
+  padding: 30px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-size: 1.1em;
+  opacity: 0.9;
+}
+
+/* ========== メインコンテンツ ========== */
+.main {
+  padding: 40px 0;
+  min-height: calc(100vh - 300px);
+}
+
+/* ========== アラート ========== */
+.alert {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #D4EDDA;
+  color: #155724;
+  border-left: 4px solid #28A745;
+}
+
+.alert-error {
+  background-color: #F8D7DA;
+  color: #721C24;
+  border-left: 4px solid #DC3545;
+}
+
+/* ========== ページヘッダー ========== */
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-header h2 {
+  font-size: 1.8em;
+  color: #2C3E50;
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  color: #7F8C8D;
+  font-size: 1.05em;
+}
+
+/* ========== エラーボックス ========== */
+.error-box {
+  background-color: #FFF3CD;
+  border: 2px solid #FFC107;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.error-box h3 {
+  color: #856404;
+  margin-bottom: 10px;
+}
+
+.error-box p {
+  color: #856404;
+  margin-bottom: 15px;
+}
+
+.help-text {
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.help-text strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #2C3E50;
+}
+
+.help-text ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.help-text li {
+  padding: 5px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.help-text li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #4A90E2;
+}
+
+.help-text code {
+  background-color: #F5F7FA;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: #E74C3C;
+}
+
+/* ========== タスクセクション ========== */
+.tasks-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 30px;
+}
+
+.tasks-section h3 {
+  color: #2C3E50;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+}
+
+/* ========== テーブル ========== */
+.tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.tasks-table thead {
+  background-color: #F8F9FA;
+}
+
+.tasks-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #DEE2E6;
+}
+
+.tasks-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #DEE2E6;
+}
+
+.tasks-table tbody tr:hover {
+  background-color: #F8F9FA;
+}
+
+/* ========== バッジ ========== */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-low {
+  background-color: #D1ECF1;
+  color: #0C5460;
+}
+
+.badge-medium {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.badge-high {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+/* ========== ステータス ========== */
+.status-completed {
+  color: #28A745;
+  font-weight: 500;
+}
+
+.status-incomplete {
+  color: #6C757D;
+  font-weight: 500;
+}
+
+/* ========== 情報ボックス ========== */
+.info-box {
+  background-color: #E7F3FF;
+  border: 2px solid #4A90E2;
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.info-box h3 {
+  color: #2C3E50;
+  margin-bottom: 10px;
+}
+
+.info-box p {
+  color: #495057;
+  margin: 5px 0;
+}
+
+/* ========== アクション ========== */
+.actions {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.btn-primary {
+  background-color: #4A90E2;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #357ABD;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+/* ========== 情報パネル ========== */
+.info-panel {
+  background-color: white;
+  border-left: 4px solid #4A90E2;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.info-panel h3 {
+  color: #2C3E50;
+  margin-bottom: 15px;
+}
+
+.info-panel p {
+  color: #495057;
+  margin: 10px 0;
+  line-height: 1.8;
+}
+
+.info-panel strong {
+  color: #2C3E50;
+}
+
+.info-panel code {
+  background-color: #F5F7FA;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: #E74C3C;
+  font-size: 0.95em;
+}
+
+/* ========== フッター ========== */
+.footer {
+  background-color: #2C3E50;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.footer p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ========== タブ ========== */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 30px 0 20px 0;
+  border-bottom: 2px solid #DEE2E6;
+}
+
+.tab-button {
+  padding: 12px 24px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  color: #6C757D;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  color: #4A90E2;
+  background-color: #F8F9FA;
+}
+
+.tab-button.active {
+  color: #4A90E2;
+  border-bottom-color: #4A90E2;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== フォームセクション ========== */
+.form-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.form-section h3 {
+  color: #2C3E50;
+  margin-bottom: 25px;
+  font-size: 1.4em;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.form-group .required {
+  color: #E74C3C;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #DEE2E6;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4A90E2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #6C757D;
+  font-size: 0.9em;
+}
+
+.btn-success {
+  background-color: #28A745;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-warning {
+  background-color: #FFC107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #E0A800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.btn-danger {
+  background-color: #DC3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #C82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* ========== 警告ボックス ========== */
+.warning-box {
+  background-color: #FFF3CD;
+  border: 2px solid #FFC107;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.warning-box p {
+  margin: 0;
+  color: #856404;
+  font-weight: 500;
+}
+
+/* ========== レスポンシブ対応 ========== */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.5em;
+  }
+
+  .header p {
+    font-size: 0.95em;
+  }
+
+  .tasks-table {
+    font-size: 0.9em;
+  }
+
+  .tasks-table th,
+  .tasks-table td {
+    padding: 8px 10px;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tab-button {
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .tab-button.active {
+    border-left-color: #4A90E2;
+    border-bottom-color: transparent;
+  }
+
+  .form-section {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,234 @@
+<div class="page-header">
+  <h2>📋 タスク一覧</h2>
+  <p>task_learning_app から取得したタスクを表示します</p>
+</div>
+
+<% if @error %>
+  <div class="error-box">
+    <h3>⚠️ エラーが発生しました</h3>
+    <p><%= @error %></p>
+    <div class="help-text">
+      <strong>対処方法:</strong>
+      <ul>
+        <li>task_learning_app が <code>http://localhost:3000</code> で起動しているか確認してください</li>
+        <li>ターミナルで <code>rails server</code> を実行してください</li>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<% if @tasks && @tasks.any? %>
+  <div class="tasks-section">
+    <h3>取得されたタスク: <%= @tasks.length %> 件</h3>
+    <table class="tasks-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>タイトル</th>
+          <th>期日</th>
+          <th>優先度</th>
+          <th>完了</th>
+          <th>作成日時</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= task['id'] %></td>
+            <td><%= task['title'] %></td>
+            <td><%= task['due_date'] %></td>
+            <td>
+              <span class="badge badge-<%= task['priority'] %>">
+                <%= task['priority'] %>
+              </span>
+            </td>
+            <td>
+              <% if task['completed_at'] %>
+                <span class="status-completed">✅ 完了</span>
+              <% else %>
+                <span class="status-incomplete">⏳ 未完了</span>
+              <% end %>
+            </td>
+            <td><%= task['created_at'] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% elsif !@error %>
+  <div class="info-box">
+    <h3>📝 タスクがありません</h3>
+    <p>task_learning_app にタスクが登録されていません。</p>
+    <p>タスク作成機能は Phase 5 で実装予定です。</p>
+  </div>
+<% end %>
+
+<div class="actions">
+  <a href="/" class="btn btn-primary">🔄 再読み込み</a>
+</div>
+
+<!-- タブパネル -->
+<div class="tabs">
+  <button class="tab-button active" onclick="showTab('create')">📝 タスク作成</button>
+  <button class="tab-button" onclick="showTab('update')">✏️ タスク更新</button>
+  <button class="tab-button" onclick="showTab('delete')">🗑️ タスク削除</button>
+</div>
+
+<!-- タスク作成フォーム -->
+<div id="create-tab" class="tab-content active">
+  <div class="form-section">
+    <h3>📝 新しいタスクを作成</h3>
+    <form action="/tasks/create" method="post">
+      <div class="form-group">
+        <label for="title">タイトル <span class="required">*</span></label>
+        <input type="text" id="title" name="title" placeholder="例: 買い物に行く" required>
+      </div>
+
+      <div class="form-group">
+        <label for="due_date">期日 <span class="required">*</span></label>
+        <input type="date" id="due_date" name="due_date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="priority">優先度</label>
+        <select id="priority" name="priority">
+          <option value="low">低（Low）</option>
+          <option value="medium" selected>中（Medium）</option>
+          <option value="high">高（High）</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="project_id">プロジェクトID（任意）</label>
+        <input type="number" id="project_id" name="project_id" placeholder="例: 1">
+        <small>プロジェクトに紐づける場合はIDを入力</small>
+      </div>
+
+      <button type="submit" class="btn btn-success">✨ タスクを作成</button>
+    </form>
+  </div>
+</div>
+
+<!-- タスク更新フォーム -->
+<div id="update-tab" class="tab-content">
+  <div class="form-section">
+    <h3>✏️ タスクを更新</h3>
+    <form action="/tasks/update/0" method="post" id="update-form">
+      <div class="form-group">
+        <label for="update-id">更新するタスクID <span class="required">*</span></label>
+        <% if @tasks && @tasks.any? %>
+          <select id="update-id" name="id" required onchange="updateFormAction()">
+            <option value="">タスクを選択してください</option>
+            <% @tasks.each do |task| %>
+              <option value="<%= task['id'] %>">ID: <%= task['id'] %> - <%= task['title'] %></option>
+            <% end %>
+          </select>
+        <% else %>
+          <input type="number" id="update-id" name="id" placeholder="タスクIDを入力" required>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <label for="update-title">タイトル</label>
+        <input type="text" id="update-title" name="title" placeholder="新しいタイトル（任意）">
+        <small>空欄の場合は変更されません</small>
+      </div>
+
+      <div class="form-group">
+        <label for="update-due_date">期日</label>
+        <input type="date" id="update-due_date" name="due_date">
+        <small>空欄の場合は変更されません</small>
+      </div>
+
+      <div class="form-group">
+        <label for="update-priority">優先度</label>
+        <select id="update-priority" name="priority">
+          <option value="">変更しない</option>
+          <option value="low">低（Low）</option>
+          <option value="medium">中（Medium）</option>
+          <option value="high">高（High）</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-warning">🔄 タスクを更新</button>
+    </form>
+  </div>
+</div>
+
+<!-- タスク削除フォーム -->
+<div id="delete-tab" class="tab-content">
+  <div class="form-section">
+    <h3>🗑️ タスクを削除</h3>
+    <form action="/tasks/delete/0" method="post" id="delete-form" onsubmit="return confirmDelete()">
+      <div class="form-group">
+        <label for="delete-id">削除するタスクID <span class="required">*</span></label>
+        <% if @tasks && @tasks.any? %>
+          <select id="delete-id" name="id" required onchange="updateDeleteFormAction()">
+            <option value="">タスクを選択してください</option>
+            <% @tasks.each do |task| %>
+              <option value="<%= task['id'] %>">ID: <%= task['id'] %> - <%= task['title'] %></option>
+            <% end %>
+          </select>
+        <% else %>
+          <input type="number" id="delete-id" name="id" placeholder="タスクIDを入力" required>
+        <% end %>
+      </div>
+
+      <div class="warning-box">
+        <p>⚠️ 削除したタスクは元に戻せません。本当に削除してもよろしいですか？</p>
+      </div>
+
+      <button type="submit" class="btn btn-danger">🗑️ タスクを削除</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// タブ切り替え
+function showTab(tabName) {
+  // すべてのタブコンテンツを非表示
+  const contents = document.querySelectorAll('.tab-content');
+  contents.forEach(content => content.classList.remove('active'));
+
+  // すべてのタブボタンを非アクティブ
+  const buttons = document.querySelectorAll('.tab-button');
+  buttons.forEach(button => button.classList.remove('active'));
+
+  // 選択されたタブコンテンツを表示
+  document.getElementById(tabName + '-tab').classList.add('active');
+
+  // 選択されたタブボタンをアクティブ
+  event.target.classList.add('active');
+}
+
+// 更新フォームのアクションURLを更新
+function updateFormAction() {
+  const id = document.getElementById('update-id').value;
+  const form = document.getElementById('update-form');
+  form.action = '/tasks/update/' + id;
+}
+
+// 削除フォームのアクションURLを更新
+function updateDeleteFormAction() {
+  const id = document.getElementById('delete-id').value;
+  const form = document.getElementById('delete-form');
+  form.action = '/tasks/delete/' + id;
+}
+
+// 削除確認ダイアログ
+function confirmDelete() {
+  return confirm('本当にこのタスクを削除してもよろしいですか？');
+}
+</script>
+
+<div class="info-panel">
+  <h3>📖 このツールについて</h3>
+  <p>このツールは、<strong>task_learning_app</strong> の REST API (<code>http://localhost:3000/api/v1/tasks</code>) を呼び出して、タスクデータを操作します。</p>
+  <p><strong>実装済み機能:</strong></p>
+  <ul>
+    <li>✅ タスク一覧取得（GET /api/v1/tasks）</li>
+    <li>✅ タスク作成（POST /api/v1/tasks）</li>
+    <li>✅ タスク更新（PATCH /api/v1/tasks/:id）</li>
+    <li>✅ タスク削除（DELETE /api/v1/tasks/:id）</li>
+  </ul>
+</div>

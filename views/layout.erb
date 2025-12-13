@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task API Tool - Rails API テストツール</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>🔧 Task API Tool</h1>
+      <p>task_learning_app の REST API をテストするためのツール</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <% if @flash && @flash[:success] %>
+        <div class="alert alert-success">
+          ✅ <%= @flash[:success] %>
+        </div>
+      <% end %>
+
+      <% if @flash && @flash[:error] %>
+        <div class="alert alert-error">
+          ❌ <%= @flash[:error] %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Task API Tool | Powered by Sinatra</p>
+    </div>
+  </footer>
+</body>
+</html>
