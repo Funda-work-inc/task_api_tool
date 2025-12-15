@@ -119,3 +119,49 @@ post '/tasks/delete/:id' do
 
   redirect '/'
 end
+
+# Webhook受信エンドポイント
+post '/webhook' do
+  # リクエストボディを読み取り
+  request.body.rewind
+  payload = JSON.parse(request.body.read)
+
+  # ログに記録
+  puts "=" * 50
+  puts "🔔 Webhook受信！"
+  puts "イベント: #{payload['event']}"
+  puts "タスクID: #{payload['task']['id']}"
+  puts "タスク名: #{payload['task']['title']}"
+  puts "発生時刻: #{payload['timestamp']}"
+  puts "=" * 50
+
+  # セッションにWebhook履歴を保存（最新10件まで）
+  session[:webhook_logs] ||= []
+  session[:webhook_logs].unshift({
+    event: payload['event'],
+    task: payload['task'],
+    timestamp: payload['timestamp']
+  })
+  session[:webhook_logs] = session[:webhook_logs].first(10)
+
+  # 成功レスポンスを返す
+  status 200
+  content_type :json
+  { success: true, message: "Webhook received" }.to_json
+rescue JSON::ParserError => e
+  # JSONパースエラー
+  status 400
+  content_type :json
+  { success: false, error: "Invalid JSON: #{e.message}" }.to_json
+rescue => e
+  # その他のエラー
+  status 500
+  content_type :json
+  { success: false, error: "Server error: #{e.message}" }.to_json
+end
+
+# Webhook履歴表示ページ
+get '/webhooks' do
+  @webhook_logs = session[:webhook_logs] || []
+  erb :webhooks
+end
