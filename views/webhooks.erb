@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Webhook履歴 - Task API Tool</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>🔔 Webhook受信履歴</h1>
+
+  <% if @webhook_logs.empty? %>
+    <p>まだWebhookを受信していません。</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr>
+          <th>イベント</th>
+          <th>タスクID</th>
+          <th>タスク名</th>
+          <th>発生時刻</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @webhook_logs.each do |log| %>
+          <tr>
+            <td><%= log[:event] %></td>
+            <td><%= log[:task]['id'] %></td>
+            <td><%= log[:task]['title'] %></td>
+            <td><%= log[:timestamp] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <a href="/">ホームに戻る</a>
+</body>
+</html>
