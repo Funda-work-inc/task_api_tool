@@ -3,7 +3,13 @@ require 'sinatra/reloader' if development?
 require_relative 'lib/task_api_client'
 
 # セッションを有効化（フラッシュメッセージ用）
-enable :sessions
+if ENV['RACK_ENV'] == 'test'
+  # テスト環境ではCookieセッション（暗号化なし）
+  use Rack::Session::Cookie, secret: 'test_secret'
+else
+  # 本番・開発環境では暗号化セッション
+  enable :sessions
+end
 
 # フラッシュメッセージヘルパー
 helpers do
@@ -164,4 +170,14 @@ end
 get '/webhooks' do
   @webhook_logs = session[:webhook_logs] || []
   erb :webhooks
+end
+
+# Webhook履歴取得API（リアルタイム更新用）
+get '/api/webhook_logs' do
+  # セッションからWebhook履歴を取得
+  webhook_logs = session[:webhook_logs] || []
+
+  # JSON形式で返す
+  content_type :json
+  { webhook_logs: webhook_logs }.to_json
 end
