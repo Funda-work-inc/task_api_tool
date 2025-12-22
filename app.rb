@@ -2,13 +2,31 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require_relative 'lib/task_api_client'
 
+# Webhook履歴をメモリ内に保存するクラス変数
+class WebhookHistory
+  @@logs = []
+
+  def self.add(log)
+    @@logs.unshift(log)
+    @@logs = @@logs.first(10) # 最新10件まで保持
+  end
+
+  def self.all
+    @@logs
+  end
+
+  def self.clear
+    @@logs = []
+  end
+end
+
 # セッションを有効化（フラッシュメッセージ用）
-if ENV['RACK_ENV'] == 'test'
-  # テスト環境ではCookieセッション（暗号化なし）
-  use Rack::Session::Cookie, secret: 'test_secret'
-else
-  # 本番・開発環境では暗号化セッション
+if ENV['RACK_ENV'] == 'production'
+  # 本番環境では暗号化セッション
   enable :sessions
+else
+  # 開発・テスト環境ではCookieセッション（暗号化なし）
+  use Rack::Session::Cookie, secret: 'development_secret_key_change_in_production'
 end
 
 # フラッシュメッセージヘルパー
@@ -141,14 +159,12 @@ post '/webhook' do
   puts "発生時刻: #{payload['timestamp']}"
   puts "=" * 50
 
-  # セッションにWebhook履歴を保存（最新10件まで）
-  session[:webhook_logs] ||= []
-  session[:webhook_logs].unshift({
+  # Webhook履歴をメモリ内に保存（最新10件まで）
+  WebhookHistory.add({
     event: payload['event'],
     task: payload['task'],
     timestamp: payload['timestamp']
   })
-  session[:webhook_logs] = session[:webhook_logs].first(10)
 
   # 成功レスポンスを返す
   status 200
@@ -168,14 +184,14 @@ end
 
 # Webhook履歴表示ページ
 get '/webhooks' do
-  @webhook_logs = session[:webhook_logs] || []
+  @webhook_logs = WebhookHistory.all
   erb :webhooks
 end
 
 # Webhook履歴取得API（リアルタイム更新用）
 get '/api/webhook_logs' do
-  # セッションからWebhook履歴を取得
-  webhook_logs = session[:webhook_logs] || []
+  # メモリからWebhook履歴を取得
+  webhook_logs = WebhookHistory.all
 
   # JSON形式で返す
   content_type :json
